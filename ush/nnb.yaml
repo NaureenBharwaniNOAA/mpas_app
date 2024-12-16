@@ -1,5 +1,5 @@
 user:
-  experiment_dir: /lfs5/BMC/wrfruc/nbharwani/test-old-hash/dev/test 
+  experiment_dir: /lfs5/BMC/wrfruc/nbharwani/test-old-hash/dev/test-histlist
   platform: jet
 platform:
   account: wrfruc
