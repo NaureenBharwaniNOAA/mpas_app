@@ -3,6 +3,7 @@ user:
   platform: jet
   workflow_blocks: 
     - cold_start.yaml
+    - post.yaml
 data:
   mesh_files: /lfs5/BMC/gsd-fv3-dev/mpas_dev/meshes/120-km-global/
 create_ics:
