@@ -34,6 +34,7 @@ create_ics:
         preproc_stages:
           config_native_gwd_static: false
           config_static_interp: false
+create_lbcs: !remove
 forecast:
   mpas:
     domain: global
@@ -84,6 +85,7 @@ post:
         cores: 256
 workflow:
   tasks:
+    task_mpas_lbcs: !remove
     task_mpas:
       partition: !remove
       dependency:
