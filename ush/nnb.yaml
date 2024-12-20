@@ -1,7 +1,7 @@
 user:
   first_cycle: !!timestamp 2024-11-20T00:00:00
   last_cycle:  !!timestamp 2024-11-21T00:00:00
-  experiment_dir: /lfs5/BMC/wrfruc/nbharwani/janet-test/dev/fcst-len-test
+  experiment_dir: /lfs5/BMC/wrfruc/nbharwani/janet-test/dev/fcst-len-fail
   platform: jet
 platform:
   account: wrfruc
