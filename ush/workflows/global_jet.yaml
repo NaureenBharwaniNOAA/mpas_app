@@ -52,7 +52,7 @@ forecast:
       MP_TEMPO_freezeH2O_DATA.DBL: /mnt/lfs5/BMC/gsd-fv3-dev/mpas_dev/hrrr_fix/tables_tempo/MP_TEMPO_freezeH2O_DATA.DBL
       MP_TEMPO_QIautQS_DATA.DBL: /mnt/lfs5/BMC/gsd-fv3-dev/mpas_dev/hrrr_fix/tables_tempo/MP_TEMPO_QIautQS_DATA.DBL
       MP_TEMPO_HAILAWARE_QRacrQG_DATA.DBL: /mnt/lfs5/BMC/gsd-fv3-dev/mpas_dev/hrrr_fix/tables_tempo/MP_TEMPO_HAILAWARE_QRacrQG_DATA.DBL
-    length: 12
+    length: 12 
     namelist:
       update_values:
         nhyd_model:
