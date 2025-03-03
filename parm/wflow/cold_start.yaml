@@ -80,7 +80,7 @@ workflow:
       join:
         cyclestr:
           value: '&LOGDIR;/{{ jobname }}_@Y@m@d@H.log'
-      nodes: "{{ create_ics.mpas_init.execution.batchargs.nodes }}:ppn={{ create_ics.mpas_init.execution.batchargs.ppn }}"
+      nodes: "{{ create_ics.mpas_init.execution.batchargs.nodes }}:ppn={{ create_ics.mpas_init.execution.batchargs.tasks_per_node }}"
       walltime: "{{ create_ics.mpas_init['execution']['batchargs']['walltime']}}"
       envars:
         CONFIG_PATH: '&EXPERIMENT_CONFIG;'

@@ -55,7 +55,7 @@ create_ics:
     execution:
       batchargs:
         nodes: 1
-        ppn: 12
+        tasks_per_node: 12
         walltime: 01:30:00
       envcmds:
         - ulimit -s unlimited || true
@@ -63,11 +63,11 @@ create_ics:
         - module load build_{{ user.platform }}_intel
       executable: "{{ user.mpas_app }}/exec/init_atmosphere_model"
       mpiargs:
-        - "--ntasks={{ create_ics.mpas_init['execution']['batchargs']['cores']}}"
+        - "--ntasks={{ create_ics.mpas_init['execution']['batchargs']['tasks_per_node'] }}"
       mpicmd: srun
     files_to_copy: &mpas_init_files_to_copy
       "{{ user.mesh_label }}.static.nc": "{{ data.mesh_files }}/{{ user.mesh_label }}.static.nc"
-      "{{ user.mesh_label }}.graph.info.part.{{create_ics.mpas_init['execution']['batchargs']['cores']}}": '{{ user.experiment_dir }}/{{ user.mesh_label }}.graph.info.part.{{create_ics.mpas_init["execution"]["batchargs"]["cores"]}}'
+      "{{ user.mesh_label }}.graph.info.part.{{create_ics.mpas_init['execution']['batchargs']['tasks_per_node']}}": '{{ user.experiment_dir }}/{{ user.mesh_label }}.graph.info.part.{{create_ics.mpas_init["execution"]["batchargs"]["tasks_per_node"]}}'
       stream_list.atmosphere.diagnostics: "{{ user.mpas_app }}/parm/mpas/stream_list.atmosphere.diagnostics"
       stream_list.atmosphere.output: "{{ user.mpas_app }}/parm/mpas/stream_list.atmosphere.output"
       stream_list.atmosphere.surface: "{{ user.mpas_app }}/parm/mpas/stream_list.atmosphere.surface"

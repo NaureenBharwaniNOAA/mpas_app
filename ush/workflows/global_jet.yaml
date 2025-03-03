@@ -10,7 +10,6 @@ create_ics:
   mpas_init: &mpas_init_config
     execution:
       batchargs:
-        nodes: 1:ppn=12
         walltime: 02:30:00
     files_to_link:
       MP_THOMPSON_QRacrQG_DATA.DBL: !remove
