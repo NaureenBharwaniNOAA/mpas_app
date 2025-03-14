@@ -160,12 +160,6 @@ SINGLE_PRECISION=false
 # Make options
 CLEAN=false
 
-# process required arguments
-if [[ ("$1" == "--help") || ("$1" == "-h") ]]; then
-  usage
-  exit 0
-fi
-
 # process optional arguments
 while :; do
   case $1 in
