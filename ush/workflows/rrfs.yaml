@@ -1,0 +1,32 @@
+workflow:
+  attrs:
+    cyclethrottle: 3
+    realtime: false
+    scheduler: slurm
+    taskthrottle: 30
+  cycledef:
+    - attrs:
+        group: ic
+      spec: 202405270000 202405280000 12:00:00
+    - attrs:
+        group: lbc
+      spec: 202405270000 202405280000 12:00:00
+    - attrs:
+        group: prod
+      spec: 202405270000 202405280000 01:00:00 
+  entities:
+    HOMErrfs: /scratch2/BMC/wrfruc/cholt/rrfs_042525/rrfs-workflow
+    EXPDIR: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/exp/rrfsdet
+    DATAROOT: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/stmp
+    COMROOT: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/com
+    LOGROOT: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/com/rrfs/v2.1.0/logs
+    RUN: rrfs
+    NET: rrfs
+    rrfs_ver: v2.1.0
+    WGF: det
+    task_common_vars: ???
+  log:
+    verbosity: 10
+    cyclestr:
+      value:
+        &LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log
