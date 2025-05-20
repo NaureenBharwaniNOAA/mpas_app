@@ -1,4 +1,23 @@
 workflow:
+  common_envars:
+    envars:
+      HOMErrfs: "&HOMErrfs"
+      EXPDIR: "&EXPDIR"
+      COMROOT: "&COMROOT"
+      DATAROOT: "&DATAROOT"
+      COMINrrfs: "&COMROOT;/rrfs/v2.1.0"
+      COMOUT: "&COMROOT;/rrfs/v2.1.0/rrfs.@Y@m@d/@H"
+      CDATE: @Y@m@d@H
+      PDY: @Y@m@d
+      cyc: @H
+      NET: rrfs
+      RUN: rrfs
+      rrfs_ver: v2.1.0
+      KEEPDATA: no
+      MPI_RUN_CMD: srun
+      MESH_NAME: conus12km
+      WGF: det
+      CYC_INTERVAL: 1 
   attrs:
     cyclethrottle: 3
     realtime: false
@@ -30,3 +49,5 @@ workflow:
     cyclestr:
       value:
         &LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log
+  tasks:
+
