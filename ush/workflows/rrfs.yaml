@@ -1,23 +1,23 @@
 workflow:
-  common_envars:
+  common_envs: &common_vars
     envars:
-      HOMErrfs: "&HOMErrfs"
-      EXPDIR: "&EXPDIR"
-      COMROOT: "&COMROOT"
-      DATAROOT: "&DATAROOT"
+      CDATE: @Y@m@d@H
       COMINrrfs: "&COMROOT;/rrfs/v2.1.0"
       COMOUT: "&COMROOT;/rrfs/v2.1.0/rrfs.@Y@m@d/@H"
-      CDATE: @Y@m@d@H
-      PDY: @Y@m@d
+      COMROOT: "&COMROOT"
       cyc: @H
-      NET: rrfs
-      RUN: rrfs
-      rrfs_ver: v2.1.0
-      KEEPDATA: no
-      MPI_RUN_CMD: srun
-      MESH_NAME: conus12km
-      WGF: det
       CYC_INTERVAL: 1 
+      DATAROOT: "&DATAROOT"
+      EXPDIR: "&EXPDIR"
+      HOMErrfs: "&HOMErrfs"
+      KEEPDATA: no
+      MESH_NAME: conus12km
+      MPI_RUN_CMD: srun
+      NET: rrfs
+      PDY: @Y@m@d
+      rrfs_ver: v2.1.0
+      RUN: rrfs
+      WGF: det
   attrs:
     cyclethrottle: 3
     realtime: false
@@ -34,20 +34,44 @@ workflow:
         group: prod
       spec: 202405270000 202405280000 01:00:00 
   entities:
-    HOMErrfs: /scratch2/BMC/wrfruc/cholt/rrfs_042525/rrfs-workflow
-    EXPDIR: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/exp/rrfsdet
-    DATAROOT: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/stmp
     COMROOT: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/com
+    DATAROOT: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/stmp
+    EXPDIR: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/exp/rrfsdet
+    HOMErrfs: /scratch2/BMC/wrfruc/cholt/rrfs_042525/rrfs-workflow
     LOGROOT: /scratch2/BMC/wrfruc/cholt/OPSROOT/hrly_12km/com/rrfs/v2.1.0/logs
-    RUN: rrfs
     NET: rrfs
     rrfs_ver: v2.1.0
+    RUN: rrfs
     WGF: det
-    task_common_vars: ???
   log:
-    verbosity: 10
     cyclestr:
-      value:
-        &LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log
+      value: "&LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log"
+    verbosity: 10
   tasks:
-
+    task_ioda_bufr:
+      attrs:
+        cycledefs: prod
+        maxtries: 1
+      account: wrfruc
+      command: "&HOMErrfs;/workflow/sideload/launch.sh JRRFS_IODA_BUFR &HOMErrfs"  
+      join:
+        cyclestr:
+          value: "&LOGROOT;/rrfs.@Y@m@d/@H/det/rrfs_ioda_bufr_d12km_@Y@m@d@H.log"
+      jobname:
+        cyclestr:
+          value: "d12km_ioda_bufr_c@H"
+      nodes: 1:ppn=1
+      partition: hera
+      queue: batch
+      walltime: 00:30:00
+      envars:
+        &common_vars
+        REFERENCE_TIME: @Y-@m-@dT@H:00:00Z
+        YAML_GEN_METHOD: 1
+        OBSPATH: /scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/obs_rap
+      dependecy:
+        and:
+          datadep:
+            attrs:
+              age: 00:05:00
+            value: /scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/obs_rap/@Y@m@d@H.rap.t@Hz.prepbufr.tm00
