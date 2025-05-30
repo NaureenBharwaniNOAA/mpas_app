@@ -42,9 +42,7 @@ workflow:
     rrfs_ver: v2.1.0
     RUN: rrfs
     WGF: det
-  log:
-    cyclestr:
-      value: "&LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log"
+  log: "&LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log"
     # attrs:
       # verbosity: 10
   tasks:
