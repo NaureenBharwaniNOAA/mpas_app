@@ -1,5 +1,4 @@
-common_vars: 
-  envars:
+common_vars: &common_vars 
     CDATE: "@Y@m@d@H"
     COMINrrfs: "&COMROOT;/rrfs/v2.1.0"
     COMOUT: "&COMROOT;/rrfs/v2.1.0/rrfs.@Y@m@d/@H"
@@ -46,7 +45,8 @@ workflow:
   log:
     cyclestr:
       value: "&LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log"
-    # verbosity: 10
+    # attrs:
+      # verbosity: 10
   tasks:
     task_ioda_bufr:
       attrs:
@@ -65,7 +65,7 @@ workflow:
       queue: batch
       walltime: 00:30:00
       envars:
-        &common_vars
+        <<: *common_vars
         OBSPATH: /scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/obs_rap
         REFERENCE_TIME: "@Y-@m-@dT@H:00:00Z"
         YAML_GEN_METHOD: 1
@@ -92,7 +92,7 @@ workflow:
       queue: batch
       walltime: 00:30:00
       envars:
-        &common_vars
+        <<: *common_vars
         EXTRN_MDL_SOURCE: GFS
         NAME_PATTERN:
           cyclestr:
@@ -113,17 +113,19 @@ workflow:
         TYPE: ic
       dependency:
         and:
-          datadep:
+          datadep_grib:
             attrs:
               age: 00:05:00
-            cyclestr:
-              attrs:
-                offset: "-6:00:00"
-              value: "/scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/GFS/gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2.0p25.f006"
-          datadep:
+            value: 
+              cyclestr:
+                attrs:
+                  offset: "-6:00:00"
+                value: "/scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/GFS/gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2.0p25.f006"
+          datadep_grib_b:
             attrs:
               age: 00:05:00
-            cyclestr:
-              attrs:
-                offset: "-6:00:00"
-              value: "/scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/GFS/gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2b.0p25.f006"
+            value:
+              cyclestr:
+                attrs:
+                  offset: "-6:00:00"
+                value: "/scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/GFS/gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2b.0p25.f006"
