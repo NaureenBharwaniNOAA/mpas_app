@@ -1,23 +1,23 @@
+common_vars: 
+  envars:
+    CDATE: "@Y@m@d@H"
+    COMINrrfs: "&COMROOT;/rrfs/v2.1.0"
+    COMOUT: "&COMROOT;/rrfs/v2.1.0/rrfs.@Y@m@d/@H"
+    COMROOT: "&COMROOT"
+    cyc: "@H"
+    CYC_INTERVAL: 1 
+    DATAROOT: "&DATAROOT"
+    EXPDIR: "&EXPDIR"
+    HOMErrfs: "&HOMErrfs"
+    KEEPDATA: no
+    MESH_NAME: conus12km
+    MPI_RUN_CMD: srun
+    NET: rrfs
+    PDY: "@Y@m@d"
+    rrfs_ver: v2.1.0
+    RUN: rrfs
+    WGF: det
 workflow:
-  common_envs: &common_vars
-    envars:
-      CDATE: @Y@m@d@H
-      COMINrrfs: "&COMROOT;/rrfs/v2.1.0"
-      COMOUT: "&COMROOT;/rrfs/v2.1.0/rrfs.@Y@m@d/@H"
-      COMROOT: "&COMROOT"
-      cyc: @H
-      CYC_INTERVAL: 1 
-      DATAROOT: "&DATAROOT"
-      EXPDIR: "&EXPDIR"
-      HOMErrfs: "&HOMErrfs"
-      KEEPDATA: no
-      MESH_NAME: conus12km
-      MPI_RUN_CMD: srun
-      NET: rrfs
-      PDY: @Y@m@d
-      rrfs_ver: v2.1.0
-      RUN: rrfs
-      WGF: det
   attrs:
     cyclethrottle: 3
     realtime: false
@@ -46,7 +46,7 @@ workflow:
   log:
     cyclestr:
       value: "&LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log"
-    verbosity: 10
+    # verbosity: 10
   tasks:
     task_ioda_bufr:
       attrs:
@@ -66,12 +66,64 @@ workflow:
       walltime: 00:30:00
       envars:
         &common_vars
-        REFERENCE_TIME: @Y-@m-@dT@H:00:00Z
-        YAML_GEN_METHOD: 1
         OBSPATH: /scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/obs_rap
-      dependecy:
+        REFERENCE_TIME: "@Y-@m-@dT@H:00:00Z"
+        YAML_GEN_METHOD: 1
+      dependency:
         and:
           datadep:
             attrs:
               age: 00:05:00
             value: /scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/obs_rap/@Y@m@d@H.rap.t@Hz.prepbufr.tm00
+    task_ungrib_ic:
+      attrs:
+        cycledefs: ic
+        maxtries: 1
+      account: wrfruc
+      command: "&HOMErrfs;/workflow/sideload/launch.sh JRRFS_UNGRIB &HOMErrfs;"
+      join:
+        cyclestr:
+          value: "&LOGROOT;/rrfs.@Y@m@d/@H/det/rrfs_ungrib_ic_d12km_@Y@m@d@H.log"
+      jobname:
+        cyclestr:
+          value: "d12km_ungrib_ic_c@H"
+      nodes: 1:ppn=1
+      partition: hera
+      queue: batch
+      walltime: 00:30:00
+      envars:
+        &common_vars
+        EXTRN_MDL_SOURCE: GFS
+        NAME_PATTERN:
+          cyclestr:
+            attrs: 
+              offset: "-6:00:00"
+            value: "gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2.0p25.ffHHH"
+        NAME_PATTERN_B: 
+          cyclestr: 
+            attrs: 
+              offset: "-6:00:00"
+            value: "gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2b.0p25.ffHHH"
+        OFFSET: 6
+        SOURCE_BASEDIR:
+          cyclestr:
+            attrs: 
+              offset: "-6:00:00"
+            value: "/scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/GFS"
+        TYPE: ic
+      dependency:
+        and:
+          datadep:
+            attrs:
+              age: 00:05:00
+            cyclestr:
+              attrs:
+                offset: "-6:00:00"
+              value: "/scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/GFS/gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2.0p25.f006"
+          datadep:
+            attrs:
+              age: 00:05:00
+            cyclestr:
+              attrs:
+                offset: "-6:00:00"
+              value: "/scratch2/BMC/rtrr/RRFS2_RETRO_DATA/May2024/GFS/gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2b.0p25.f006"
