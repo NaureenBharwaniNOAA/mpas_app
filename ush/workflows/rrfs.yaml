@@ -45,8 +45,9 @@ workflow:
   log:
     attrs:
       verbosity: 10
-    cyclestr:
-      value: "&LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log"
+    value:  
+      cyclestr: 
+        value:  "&LOGROOT;/&RUN;.@Y@m@d/@H/&WGF;/&RUN;.log"
   tasks:
     task_ioda_bufr:
       attrs:
