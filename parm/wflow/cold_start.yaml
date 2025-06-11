@@ -17,16 +17,16 @@ workflow:
     task_get_ics_data:
       command: '&MPAS_APP;/scripts/get_external_data.sh'
       account: "{{ platform.account }}"
-      partition: service
+      partition: "{{ platform.service_partition }}"
       join:
         cyclestr:
           value: '&LOGDIR;/{{ jobname }}_@Y@m@d@H.log'
       walltime: "{{ get_ics_data.execution.walltime }}"
       cores: !int "{{ get_ics_data.execution.cores }}"
       envars:
-        YYYYMMDDHH:
+        cycle:
           cyclestr:
-            value: '@Y@m@d@H'
+            value: '@Y-@m-@dT@H:@M:@S'
         OUTPUT_PATH:
           cyclestr:
             value: "{{ user.experiment_dir }}/@Y@m@d@H/{{ user.ics.external_model }}"
@@ -37,16 +37,16 @@ workflow:
     task_get_lbcs_data:
       command: '&MPAS_APP;/scripts/get_external_data.sh'
       account: "{{ platform.account }}"
-      partition: service
+      partition: "{{ platform.service_partition }}"
       join:
         cyclestr:
           value: '&LOGDIR;/{{ jobname }}_@Y@m@d@H.log'
       walltime: "{{ get_lbcs_data.execution.walltime }}"
       cores: !int "{{ get_lbcs_data.execution.cores }}"
       envars:
-        YYYYMMDDHH:
+        cycle:
           cyclestr:
-            value: '@Y@m@d@H'
+            value: '@Y-@m-@dT@H:@M:@S'
         OUTPUT_PATH:
           cyclestr:
             value: "{{ user.experiment_dir }}/@Y@m@d@H/{{ user.lbcs.external_model }}"
