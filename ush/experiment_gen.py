@@ -113,6 +113,7 @@ def prepare_configs(user_config_files: list[Path]) -> tuple[YAMLConfig, Path]:
     experiment_config.dereference()
     return experiment_config, mpas_app
 
+
 def required_nprocs(experiment_config: YAMLConfig) -> list[int]:
     """
     Get the processor count required for relevant workflow sections.
